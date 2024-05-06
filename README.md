@@ -54,6 +54,7 @@ We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain p
 ### Setup a new mail server
 
 First, create an `.env` file in the root directory of the repository as shown below
+
 ```ini
 STORAGE_PATH=/moonmail
 
@@ -82,6 +83,7 @@ After running these commands, the following files will be created: 
 - `nginx.conf`
 - `mailu.env`
 - `docker-compose.yml`
+
 Then copy `tlsa` file content and add a DNS record as follow:
 ![](attachments/Pasted%20image%2020240506135913.png)
 Run
@@ -89,7 +91,7 @@ Run
 docker compose up -d
 ```
 
-Before you can use MoonMail, you must create the primary administrator user account. This should be admin@moon.allinpepetothemoon. Use the following command, changing PASSWORD to your liking:
+Before you can use MoonMail, you must create the primary administrator user account. This should look like admin@moon.allinpepetothemoon. Use the following command, changing PASSWORD to your liking:
 ```bash
 docker compose exec admin flask mailu admin admin moon.allinpepetothemoon PASSWORD
 ```
