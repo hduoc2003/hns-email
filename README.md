@@ -2,7 +2,7 @@
 
 ## Introduction
 
-MoonMail is built on top of [Mailu](https://mailu.io/2.0/). It is a simple yet full-featured mail server as a set of Docker images. We've enhanced Mailu to support interaction with **Handshake** domains, including:
+MoonMail is built on top of [Mailu](attachments/https://mailu.io/2.0/). It is a simple yet full-featured mail server as a set of Docker images. We've enhanced Mailu to support interaction with **Handshake** domains, including:
 - Automatically issuing TLS certificates for Handshake domains.
 - Exclusively engage with Handshake HNS domain names, guaranteeing compatibility and full support within the Handshake ecosystem.
 
@@ -13,7 +13,7 @@ Main features include:
 - **Web access**, multiple Webmails and administration interface
 - **User features**, aliases, auto-reply, auto-forward, fetched accounts
 - **Admin features**, global admins, announcements, per-domain delegation, quotas
-- **Security**, enforced TLS, DANE, MTA-STS, Letsencrypt!, outgoing DKIM, anti-virus scanner, [Snuffleupagus](https://github.com/jvoisin/snuffleupagus/), block malicious attachments
+- **Security**, enforced TLS, DANE, MTA-STS, Letsencrypt!, outgoing DKIM, anti-virus scanner, [Snuffleupagus](attachments/https://github.com/jvoisin/snuffleupagus/), block malicious attachments
 - **Antispam**, auto-learn, greylisting, DMARC and SPF, anti-spoofing
 - **Freedom**, all FOSS components, no tracker included
 
@@ -29,30 +29,30 @@ First, you need to clone this repository. We will use an Ubuntu server, `moon.al
 
 ### Setup DNS records
 
-We use [Namebase.io](https://www.namebase.io/) as Handshake domain provider. We need to add a few records as follows:
-![](Pasted%20image%2020240506120538.png)
-![](Pasted%20image%2020240506120551.png)
-![](Pasted%20image%2020240506120618.png)
+We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain provider. We need to add a few records as follows:
+![](attachments/Pasted%20image%2020240506120538.png)
+![](attachments/Pasted%20image%2020240506120551.png)
+![](attachments/Pasted%20image%2020240506120618.png)
 
 ### Setup a new mail server
 
 #### Generate configuration files
 
-We use [Mailu configuration](https://setup.mailu.io/2.0/) website to to generate the necessary environment configuration variables.
+We use [Mailu configuration](attachments/https://setup.mailu.io/2.0/) website to to generate the necessary environment configuration variables.
 
 ##### Step 1 - Initial configuration
 
 Fill in the fields in the below image with your own values.
 
-![](step%201.png)
+![](attachments/step%201.png)
 
 ##### Step 2 - Pick some features
 
-![](step%202.png)
+![](attachments/step%202.png)
 
 ##### Step 3 - Expose MoonMail to the world
 
-![](Pasted%20image%2020240506110019.png)
+![](attachments/Pasted%20image%2020240506110019.png)
 
 And click to `Setup Mailu` button.
 
@@ -77,7 +77,7 @@ After running this, the following files will be created: 
 - `nginx.conf`
 - `tlsa`
 and your `docker-compose.yml` will be modified. Then copy `tlsa` file content and add a DNS record as follow:
-![](Pasted%20image%2020240506135913.png)
+![](attachments/Pasted%20image%2020240506135913.png)
 Run
 ```
 docker compose up -d
@@ -90,6 +90,6 @@ docker compose exec admin flask mailu admin admin moon.allinpepetothemoon PASSWO
 
 Then access your domain with HTTPS, and the website interface will look like this
 
-![](Pasted%20image%2020240506141053.png)
+![](attachments/Pasted%20image%2020240506141053.png)
 
 
