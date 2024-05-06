@@ -30,7 +30,7 @@ First, you need to clone this repository. We will use an Ubuntu server, `moon.al
 ### Setup [HNSD](https://github.com/handshake-org/hnsd) for DNS resolution
 
 Run HNSD locally
-```
+```bash
 docker run -d --name hnsd --restart always -p 53:53/udp namebasehq/hnsd "/opt/hnsd/dist/hnsd" -p 4 -r 0.0.0.0:53
 ```
 
@@ -40,7 +40,7 @@ nameserver 127.0.0.1
 ```
 
 It took a while for HNSD to finish running. You can `ping` a Handshake domain to check everything is working properly
-```
+```bash
 ping mail.moon.allinpepetothemoon
 ```
 
@@ -53,55 +53,44 @@ We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain p
 
 ### Setup a new mail server
 
-#### Generate configuration files
+First, create an `.env` file in the root directory of the repository as shown below
+```ini
+STORAGE_PATH=/moonmail
 
-We use [Mailu configuration](attachments/https://setup.mailu.io/2.0/) website to to generate the necessary environment configuration variables.
+DOMAIN=moon.allinpepetothemoon
 
-##### Step 1 - Initial configuration
+WEBSITE_NAME="Moon Mail"
 
-Fill in the fields in the below image with your own values.
+IP_ADDRESS=14.225.217.169
 
-![](attachments/step%201.png)
-
-##### Step 2 - Pick some features
-
-![](attachments/step%202.png)
-
-##### Step 3 - Expose MoonMail to the world
-
-![](attachments/Pasted%20image%2020240506110019.png)
-
-And click to `Setup Mailu` button.
-
-##### Step 4 - Download configuration files
-
-Download file `mailu.env` and `docker-compose.yml` using the `wget` command provided on the website.
-
-#### Run setup script
-
-First, create `venv` and install necessary python packages
-
+HOSTNAMES=mail.moon.allinpepetothemoon
 ```
+
+Then, create `venv` and install necessary python packages
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt 
 python script.py
 ```
 
-After running this, the following files will be created: 
+After running these commands, the following files will be created: 
 - `cert.key` (private key) 
 - `cert.crt` (public key)
-- `nginx.conf`
 - `tlsa`
-and your `docker-compose.yml` will be modified. Then copy `tlsa` file content and add a DNS record as follow:
+- `nginx.conf`
+- `mailu.env`
+- `docker-compose.yml`
+Then copy `tlsa` file content and add a DNS record as follow:
 ![](attachments/Pasted%20image%2020240506135913.png)
 Run
-```
+```bash
 docker compose up -d
 ```
 
 Before you can use MoonMail, you must create the primary administrator user account. This should be admin@moon.allinpepetothemoon. Use the following command, changing PASSWORD to your liking:
-```
+```bash
 docker compose exec admin flask mailu admin admin moon.allinpepetothemoon PASSWORD
 ```
 

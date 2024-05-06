@@ -1,5 +1,5 @@
 .obsidian
-
+.vscode
 mailu.env
 cert.crt
 cert.key
