@@ -27,6 +27,23 @@ First, you need to clone this repository. We will use an Ubuntu server, `moon.al
 - Python 3, pip, python venv
 - Root user
 
+### Setup [HNSD](https://github.com/handshake-org/hnsd) for DNS resolution
+
+Run HNSD locally
+```
+docker run -d --name hnsd --restart always -p 53:53/udp namebasehq/hnsd "/opt/hnsd/dist/hnsd" -p 4 -r 0.0.0.0:53
+```
+
+Add the following line to the top of the `/etc/resolv.conf` file
+```
+nameserver 127.0.0.1
+```
+
+It took a while for HNSD to finish running. You can `ping` a Handshake domain to check everything is working properly
+```
+ping mail.moon.allinpepetothemoon
+```
+
 ### Setup DNS records
 
 We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain provider. We need to add a few records as follows:
