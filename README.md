@@ -91,7 +91,7 @@ Run
 docker compose up -d
 ```
 
-Before you can use MoonMail, you must create the primary administrator user account. This should be admin@moon.allinpepetothemoon. Use the following command, changing PASSWORD to your liking:
+Before you can use MoonMail, you must create the primary administrator user account. This should look like admin@moon.allinpepetothemoon. Use the following command, changing PASSWORD to your liking:
 ```bash
 docker compose exec admin flask mailu admin admin moon.allinpepetothemoon PASSWORD
 ```
