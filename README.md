@@ -47,6 +47,7 @@ ping mail.moon.allinpepetothemoon
 ### Setup DNS records
 
 We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain provider. We need to add a few records as follows:
+
 ![](attachments/Pasted%20image%2020240506120538.png)
 ![](attachments/Pasted%20image%2020240506120551.png)
 ![](attachments/Pasted%20image%2020240506120618.png)
@@ -85,7 +86,9 @@ After running these commands, the following files will be created: 
 - `docker-compose.yml`
 
 Then copy `tlsa` file content and add a DNS record as follow:
+
 ![](attachments/Pasted%20image%2020240506135913.png)
+
 Run
 ```bash
 docker compose up -d
