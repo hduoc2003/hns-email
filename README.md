@@ -24,7 +24,7 @@ First, you need to clone this repository. We will use an Ubuntu server, `moon.al
 ### Prerequisites
 
 - Docker CLI
-- Python 3, pip, python venv
+- Python 3
 - Root user
 
 ### Setup [HNSD](https://github.com/handshake-org/hnsd) for DNS resolution
@@ -54,27 +54,22 @@ We use [Namebase.io](attachments/https://www.namebase.io/) as Handshake domain p
 
 ### Setup a new mail server
 
-First, create an `.env` file in the root directory of the repository as shown below
+First, in the root directory of the project, edit the content of the `config.json` file according to your configuration
 
-```ini
-STORAGE_PATH=/moonmail
-
-DOMAIN=moon.allinpepetothemoon
-
-WEBSITE_NAME="Moon Mail"
-
-IP_ADDRESS=14.225.217.169
-
-HOSTNAMES=mail.moon.allinpepetothemoon
+```json
+{
+    "STORAGE_PATH": "/moonmail",
+    "DOMAIN": "moon.allinpepetothemoon",
+    "HOSTNAMES": "mail.moon.allinpepetothemoon",
+    "WEBSITE_NAME": "Moon Mail",
+    "IP_ADDRESS": "14.225.217.169"
+}
 ```
 
-Then, create `venv` and install necessary python packages
+Then run `script.py`
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt 
-python script.py
+python3 script.py
 ```
 
 After running these commands, the following files will be created: 

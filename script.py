@@ -1,19 +1,14 @@
-import os
-from dotenv import load_dotenv
+import json
 import subprocess
 
-def get_env(key: str) -> str:
-    val = os.getenv(key)
-    if val is None:
-        raise Exception("{key} not found in .env")
-    return val
+with open('config.json') as r:
+    config = json.loads(r.read())
 
-load_dotenv('.env')
-DOMAIN: str = get_env("DOMAIN")
-HOSTNAMES = get_env("HOSTNAMES")
-STORAGE_PATH = get_env("STORAGE_PATH")
-WEBSITE_NAME = get_env("WEBSITE_NAME")
-IP_ADDRESS = get_env("IP_ADDRESS")
+DOMAIN: str = config["DOMAIN"]
+HOSTNAMES = config["HOSTNAMES"]
+STORAGE_PATH = config["STORAGE_PATH"]
+WEBSITE_NAME = config["WEBSITE_NAME"]
+IP_ADDRESS = config["IP_ADDRESS"]
 HNS_DNS = "103.196.38.38"
 
 TEMPLATE_DOMAIN = "$DOMAIN"
@@ -22,7 +17,6 @@ TEMPLATE_STORAGE_PATH = "$STORAGE_PATH"
 TEMPLATE_WEBSITE_NAME = "$WEBSITE_NAME"
 TEMPLATE_IP_ADDRESS = "$IP"
 TEMPLATE_HNS_DNS = "$HNS_DNS"
-
 
 # Gen nginx.conf
 def gen_nginx():
@@ -97,6 +91,6 @@ def gen_docker_compose():
 
 if __name__ == "__main__":
     gen_nginx()
-    gen_cert()
+    # gen_cert()
     gen_env()
     gen_docker_compose()
