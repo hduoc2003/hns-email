@@ -11,10 +11,11 @@ services:
     image: redis:alpine
     restart: always
     volumes:
-      - "/mailu/redis:/data"
+      - "$STORAGE_PATH/redis:/data"
     depends_on:
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   # Core services
@@ -27,26 +28,37 @@ services:
       options:
         tag: mailu-front
     ports:
-      - "14.225.217.169:80:80"
-      - "14.225.217.169:443:443"
-      - "14.225.217.169:25:25"
-      - "14.225.217.169:465:465"
-      - "14.225.217.169:587:587"
-      - "14.225.217.169:110:110"
-      - "14.225.217.169:995:995"
-      - "14.225.217.169:143:143"
-      - "14.225.217.169:993:993"
+      - "$IP:80:80"
+      - "$IP:443:443"
+      - "$IP:25:25"
+      - "$IP:465:465"
+      - "$IP:587:587"
+      - "$IP:110:110"
+      - "$IP:995:995"
+      - "$IP:143:143"
+      - "$IP:993:993"
     networks:
       - default
       - webmail
       - radicale
     volumes:
-      - "/mailu/certs:/certs"
-      - "/mailu/overrides/nginx:/overrides:ro"
+      - "$STORAGE_PATH/certs:/certs"
+      - "$STORAGE_PATH/overrides/nginx:/overrides:ro"
+      - ./cert.crt:/etc/ssl/cert.crt:ro
+      - ./cert.key:/etc/ssl/cert.key:ro
+      - ./nginx.conf:/etc/nginx/nginx1.conf:ro
+      - ./tls.conf:/etc/nginx/tls1.conf:ro
     depends_on:
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
+    command:
+      [
+        "/bin/sh",
+        "-c",
+        "/start.py & sleep 20 && cd /etc/nginx/ && rm nginx.conf && cp nginx1.conf nginx.conf && rm tls.conf && cp tls1.conf tls.conf && nginx -s reload && sleep infinity"
+      ]
 
   resolver:
     image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-2.0}
@@ -65,8 +77,8 @@ services:
       options:
         tag: mailu-admin
     volumes:
-      - "/mailu/data:/data"
-      - "/mailu/dkim:/dkim"
+      - "$STORAGE_PATH/data:/data"
+      - "$STORAGE_PATH/dkim:/dkim"
     depends_on:
       - redis
       - resolver
@@ -82,12 +94,13 @@ services:
       options:
         tag: mailu-imap
     volumes:
-      - "/mailu/mail:/mail"
-      - "/mailu/overrides/dovecot:/overrides:ro"
+      - "$STORAGE_PATH/mail:/mail"
+      - "$STORAGE_PATH/overrides/dovecot:/overrides:ro"
     depends_on:
       - front
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   smtp:
@@ -99,12 +112,13 @@ services:
       options:
         tag: mailu-smtp
     volumes:
-      - "/mailu/mailqueue:/queue"
-      - "/mailu/overrides/postfix:/overrides:ro"
+      - "$STORAGE_PATH/mailqueue:/queue"
+      - "$STORAGE_PATH/overrides/postfix:/overrides:ro"
     depends_on:
       - front
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   oletools:
@@ -116,6 +130,7 @@ services:
     depends_on:
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   antispam:
@@ -131,14 +146,15 @@ services:
       - default
       - noinet
     volumes:
-      - "/mailu/filter:/var/lib/rspamd"
-      - "/mailu/overrides/rspamd:/overrides:ro"
+      - "$STORAGE_PATH/filter:/var/lib/rspamd"
+      - "$STORAGE_PATH/overrides/rspamd:/overrides:ro"
     depends_on:
       - front
       - redis
       - oletools
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   # Optional services
@@ -147,7 +163,7 @@ services:
     image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}radicale:${MAILU_VERSION:-2.0}
     restart: always
     volumes:
-      - "/mailu/dav:/data"
+      - "$STORAGE_PATH/dav:/data"
     networks:
       - radicale
 
@@ -156,13 +172,14 @@ services:
     restart: always
     env_file: mailu.env
     volumes:
-      - "/mailu/data/fetchmail:/data"
+      - "$STORAGE_PATH/data/fetchmail:/data"
     depends_on:
       - admin
       - smtp
       - imap
       - resolver
     dns:
+      - $HNS_DNS
       - 192.168.203.254
 
   # Webmail
@@ -171,8 +188,8 @@ services:
     restart: always
     env_file: mailu.env
     volumes:
-      - "/mailu/webmail:/data"
-      - "/mailu/overrides/roundcube:/overrides:ro"
+      - "$STORAGE_PATH/webmail:/data"
+      - "$STORAGE_PATH/overrides/roundcube:/overrides:ro"
     networks:
       - webmail
     depends_on:
