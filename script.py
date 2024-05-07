@@ -41,8 +41,8 @@ def gen_env():
 
     with open('server.temp.env') as r:
         temp_env = r.read()
-    env = temp_env.replace(TEMPLATE_DOMAIN, DOMAIN) \
-                       .replace(TEMPLATE_HOSTNAMES, HOSTNAMES) \
+    env = temp_env.replace("$HOSTNAMES", HOSTNAMES) \
+                       .replace("$DOMAIN", DOMAIN) \
                        .replace(TEMPLATE_WEBSITE_NAME, WEBSITE_NAME)
     with open('mailu.env', 'w') as w:
         w.write(env)
@@ -94,7 +94,7 @@ def gen_docker_compose():
     print('Finish generating docker-compose.yml')
 
 if __name__ == "__main__":
-    gen_nginx()
-    gen_cert()
+    # gen_nginx()
+    # gen_cert()
     gen_env()
-    gen_docker_compose()
+    # gen_docker_compose()
