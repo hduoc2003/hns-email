@@ -100,4 +100,8 @@ Then access your domain with HTTPS, and the website interface will look like thi
 
 ![](attachments/Pasted%20image%2020240506141053.png)
 
+## Demo 
+### Sending emails to other email server used handshake domain
+[demo_sending_emails](https://www.youtube.com/watch?v=OjO4SZG7zaE)
+
 
