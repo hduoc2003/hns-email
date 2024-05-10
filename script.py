@@ -91,6 +91,6 @@ def gen_docker_compose():
 
 if __name__ == "__main__":
     gen_nginx()
-    # gen_cert()
+    gen_cert()
     gen_env()
     gen_docker_compose()
